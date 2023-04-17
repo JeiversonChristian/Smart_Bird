@@ -32,13 +32,13 @@ SH = 800
 # os.pah.join() -> to define the path of the image
 
 # pipe image
-PI = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'pipe.png')))
+PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'pipe.png')))
 # base image
-BI = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'base.png')))
+BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'base.png')))
 # background image
-BGI = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bg.png')))
+BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bg.png')))
 # birds images
-BDIS = [
+BIRDS_IMGS = [
     pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird1.png'))),
     pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird2.png'))),
     pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird3.png')))
@@ -52,3 +52,28 @@ pygame.font.init()
 # score font
 SF = pygame.font.SysFont('arial', 50)
 #---------------------------------------------------------------------------------------------------------
+
+#---------------------------------------------------------------------------------------------------------
+# creating game objects: what is in the game and what can move
+
+# background - freeze
+# bird - moves (y axis)
+# pipe - moves (x axis)
+# base - moves (x axis)
+
+# we are gonna create the 3 objects, that moves, as a python class:
+
+class Bird:
+    
+    # defining Bird constants
+    
+    # images
+    IMGS = BIRDS_IMGS
+
+    # rotation animations
+
+class Pipe:
+    pass
+
+class Base:
+    pass
