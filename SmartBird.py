@@ -67,10 +67,78 @@ class Bird:
     
     # defining Bird constants
     
-    # images
+    # Bird images 
     IMGS = BIRDS_IMGS
 
-    # rotation animations
+    # rotation animations    
+    MAX_ROTATION = 25
+    ROTATION_VELOCITY = 20
+    ANIMATATION_TIME = 5
+
+    # defining Bird attributes
+
+    def __init__(self, x, y):
+        
+        # (x , y) where the Bird is born
+        self.x = x
+        self.y = y
+
+        self.height = self.y
+
+        # angle of the Bird -> start horizontal
+        self.angle = 0
+
+        # velocity of the Bird on y axis -> start 0
+        self.velocity = 0
+
+        # time for the bird to jump and come back -> parabolic motion
+        self.time = 0
+
+        # which Bird image am I currently using
+        self.image_number = 0
+
+        # current Bird image
+        self.image = self.IMGS[0]
+
+    # Bird actions
+
+    def jump(self):
+
+        # y is positive downward and negative upward
+        self.velocity = -10.5
+
+        # when the bird start jumping, the time is zero
+        self.time = 0
+
+        self.height = self.y
+
+    # This function is gonna to be run every frame
+    def move(self):
+
+        # calculate the displacement
+        self.time += 1
+        # S = S0 + v0.t + a.t²/2  ->  MUV space formula
+        displacement =  (self.velocity)*(self.time) (1.5)*(self.time**2)
+        
+        # restrict displacement
+        if displacement > 16:
+            displacement = 16
+        elif displacement < 0:
+            displacement -= 2 # increase the jump
+        
+        # displace the Bird     
+        self.y += displacement
+
+        # animate Bird angle
+        # displacement < 0 -> jumping
+        # self.y < (self.height + 50) -> start to turn after while
+        if displacement < 0 or self.y < (self.height + 50):
+            if self.angle < self.MAX_ROTATION:
+                self.angle = self.MAX_ROTATION
+            else:
+                if self.angle > -90:
+                    self.angle -= self.ROTATION_VELOCITY
+
 
 class Pipe:
     pass
