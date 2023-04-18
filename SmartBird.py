@@ -73,7 +73,7 @@ class Bird:
     # rotation animations    
     MAX_ROTATION = 25
     ROTATION_VELOCITY = 20
-    ANIMATATION_TIME = 5
+    ANIMATION_TIME = 5
 
     # defining Bird attributes
 
@@ -94,8 +94,8 @@ class Bird:
         # time for the bird to jump and come back -> parabolic motion
         self.time = 0
 
-        # which Bird image am I currently using
-        self.image_number = 0
+        # this is going to be used to change the Bird image
+        self.image_counter = 0
 
         # current Bird image
         self.image = self.IMGS[0]
@@ -139,6 +139,47 @@ class Bird:
                 if self.angle > -90:
                     self.angle -= self.ROTATION_VELOCITY
 
+    # draw bird in the screen
+    def draw(self, screen):
+        
+        # define which Bird image that is going to be used
+        # 5 in 5 frames - change the image - slap wings
+        self.image_counter += 1 
+        if self.image_counter < self.ANIMATION_TIME:
+            self.image = self.IMGS[0]
+        elif self.image_counter < (self.ANIMATION_TIME)*2:
+            self.image = self.IMGS[1]
+        elif self.image_counter < (self.ANIMATION_TIME)*3:
+            self.image = self.IMGS[2]
+        elif self.image_counter < (self.ANIMATION_TIME)*4:
+            self.image = self.IMGS[1]
+        elif self.image_counter < (self.ANIMATION_TIME)*4 + 1:
+            self.image = self.IMGS[0]
+            self.image_counter = 0
+
+        # if the Bird is falling, it's is not to slap wings
+        if self.angle <= -80:
+            self.image = self.IMGS[1]
+            self.image_counter = (self.ANIMATION_TIME)*2 # the next slap wings is to down
+
+        # to draw the Bird image
+
+        # the Bird is constantly drawn, and it must to be drawn in the right angle
+        image_rotated = pygame.transform.rotate(self.image, self.angle)
+
+        # the Bird is goint to be drawn in a rectangle
+        image_center = self.image.get_rect(topleft = (self.x, self.y)).center
+        rectangle = image_rotated.get_rect(center=image_center)
+
+        # to draw
+        screen.blit(image_rotated, rectangle.topleft)
+
+    # it is going to be drawn a mask around the Bird to help the colision system
+    def get_mask(self):
+        pygame.mask.from_surface(self.image)
+
+    # END Bird
+    
 
 class Pipe:
     pass
