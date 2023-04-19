@@ -338,4 +338,70 @@ def  draw_screen(screen, birds, pipes, base, score_points):
 
     # updating the screen
     pygame.display.update()
-    #-----------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
+
+
+#---------------------------------------------------------------------------------------------------------
+# game's main function
+
+def main():
+
+    # defining initial parameters
+
+    # list of birds
+    # by now, only one bird
+    # (230, 350) - initial position of the bird
+    birds = [Bird(230, 350)]
+
+    # 730 -> remember: the y axis grows to down
+    base = Base(730)
+
+    # list of pipes
+    # by now, only one pipe
+    # 700 -> it appear behind of the screen (SCREEN_WIDTH = 500)
+    pipes = [Pipe(700)]
+
+    # create screen
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    score_points = 0
+
+    # how often do you refresh the screen? FPS -> frame per second
+    clock = pygame.time.Clock()
+
+
+    # starting the game
+    # a game is an infinite looping
+
+    # the game is running
+    running = True
+
+    while running:
+
+        # time is ticking
+        # 30 FPS
+        clock.tick(30)
+
+        # interaction with the game
+        # pygame.event.get() return a list of events
+        # example: press the space button is an event
+        for event in pygame.event.get():
+
+            # close screen clicking on the "x"
+            if event.type == pygame.QUIT:
+                running = False
+                # close screen
+                pygame.quit()
+                # quit game (the code)
+                quit()
+
+            # press a keyboard key    
+            if event.type == pygame.KEYDOWN:
+                # the key is the space?
+                if event.key == pygame.K_SPACE:
+                    # jump, bird, jump
+                    for bird in birds:
+                        bird.jump()
+
+        # draw the screen is the last thing you do
+        draw_screen(screen, birds, pipes, base, score_points)
