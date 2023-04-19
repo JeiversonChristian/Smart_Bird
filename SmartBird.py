@@ -71,8 +71,8 @@ class Bird:
     IMGS = BIRDS_IMGS
 
     # rotation animations    
-    MAX_ROTATION = 30
-    ROTATION_VELOCITY = 25
+    MAX_ROTATION = 25
+    ROTATION_VELOCITY = 30
     ANIMATION_TIME = 5
 
     # defining Bird attributes
@@ -135,9 +135,9 @@ class Bird:
         if displacement < 0 or self.y < (self.height + 50):
             if self.angle < self.MAX_ROTATION:
                 self.angle = self.MAX_ROTATION
-            else:
-                if self.angle > -90:
-                    self.angle -= self.ROTATION_VELOCITY
+        else:
+            if self.angle > -90:
+                self.angle -= self.ROTATION_VELOCITY
 
     # draw Bird in the screen
     def draw(self, screen):
@@ -244,8 +244,8 @@ class Pipe:
 
         # calculating the distances between the objects
         # round() is to round the number to an integer, because the bird can have a float one
-        distance_top_pipe = (self.x - round(bird.x), self.pos_top - round(bird.y))
-        distance_bot_pipe = (self.x - round(bird.x), self.pos_bot - round(bird.y))
+        distance_top_pipe = (self.x - bird.x, self.pos_top - round(bird.y))
+        distance_bot_pipe = (self.x - bird.x, self.pos_bot - round(bird.y))
 
         # verify the collision with mask
         # overlap() are there two equal pixel overlapping each other?
