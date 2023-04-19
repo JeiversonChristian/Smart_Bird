@@ -50,7 +50,7 @@ BIRDS_IMGS = [
 # initializing the text
 pygame.font.init() 
 # score font
-SF = pygame.font.SysFont('arial', 50)
+SCORE_FONTE = pygame.font.SysFont('arial', 50)
 #---------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------
@@ -303,8 +303,39 @@ class Base:
     # draw Base in the screen
     def draw(self, screen):
         # the blit() method will draw the contents of a pygame object
-        # (image, position)
+        # (image, initial position)
         screen.blit(self.IMAGE, (self.x1, self.Y))
         screen.blit(self.IMAGE, (self.x2, self.Y))
 
     # END Base
+#---------------------------------------------------------------------------------------------------------
+
+
+#---------------------------------------------------------------------------------------------------------
+# function to draw the screen
+
+def  draw_screen(screen, birds, pipes, base, score_points):
+
+    # draw the background of the game
+    screen.blit(BG_IMG, (0,0))
+
+    # there are going to be several birds when the IA is running
+    for bird in birds:
+        bird.draw(screen)
+
+    # there are going to be most the one pipe on the screen at the same time
+    for pipe in pipes:
+        pipe.draw(screen)
+
+    # score text
+    # render() is to render the message on the screen
+    # 1 -> it is for the text to be round and not pixelated
+    # (255,255,255) -> RGB color
+    text = SCORE_FONTE.render(f"Pontuação: {score_points}", 1, (255,255,255))
+    screen.blit(text, (SCREEN_WIDTH-10-text.get_width(), 10))
+
+    base.draw(screen)
+
+    # updating the screen
+    pygame.display.update()
+    #-----------------------------------------------------------------------------------------------------
