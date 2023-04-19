@@ -249,14 +249,15 @@ class Pipe:
 
         # verify the collision with mask
         # overlap() are there two equal pixel overlapping each other?
-        top_collided = bird_mask.overlap(top_pipe_mask, distance_top_pipe) # boolean value
-        bot_collided = bird_mask.overlap(bot_pipe_mask, distance_bot_pipe) # boolean value
+        top_collided = bird_mask.overlap(top_pipe_mask, distance_top_pipe) # (x,y) of collision
+        bot_collided = bird_mask.overlap(bot_pipe_mask, distance_bot_pipe) # (x,y) of collision
+        # if there is no collision, then the overlap return 'none'
 
-        # There are collision
-        if top_collided == True or bot_collided == True:
-            return True
-        else:
+        # Are there collision?
+        if ((top_collided is None) and (bot_collided is None)):
             return False
+        if ((top_collided is not None) or (bot_collided is not None)):
+            return True
         
         # END Pipe
 
@@ -412,12 +413,6 @@ def main():
         for bird in birds:
             bird.move()
 
-        # if the birds passes the base or the top of the screen
-        for i, bird in enumerate(birds):  # we need the address (i) and the element (bird)
-            if bird.y + bird.image.get_height() > base.y or bird.y < 0:
-                # remove that bird of list of birds
-                birds.pop(i)
-
         # base, move!
         base.move()
 
@@ -432,11 +427,11 @@ def main():
         for pipe in pipes:
             for i, bird in enumerate(birds): # we need the address (i) and the element (bird)
                 # if bird collides with pipe
-                if pipe.collide(bird):
+                if pipe.collide(bird) == True:
                     # remove that bird of list of birds
                     birds.pop(i)
                 # if the bird has not passed by the pipe yet, but the bird is the half way through
-                if pipe.passed == False and bird.x > pipe.x:
+                if not pipe.passed and bird.x > pipe.x:
                     pipe.passed = True
                     add_pipe = True
             pipe.move()
@@ -452,6 +447,12 @@ def main():
             pipes.append(Pipe(600))
         for pipe in removed_pippes:
             pipes.remove(pipe)
+
+        # if the birds passes the base or the top of the screen
+        for i, bird in enumerate(birds):  # we need the address (i) and the element (bird)
+            if bird.y + bird.image.get_height() > base.y or bird.y < 0:
+                # remove that bird of list of birds
+                birds.pop(i)
 
         # draw the screen is the last thing you do
         draw_screen(screen, birds, pipes, base, score_points)
