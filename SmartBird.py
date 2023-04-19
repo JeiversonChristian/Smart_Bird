@@ -23,7 +23,7 @@ import random
 # screen width
 SCREEN_WIDTH = 500
 # screen height
-SCREEN_HEIGHT = 800
+SCREEN_HEIGHT = 700
 
 # images
 
@@ -354,7 +354,7 @@ def main():
     birds = [Bird(230, 350)]
 
     # 730 -> remember: the y axis grows to down
-    base = Base(730)
+    base = Base(630)
 
     # list of pipes
     # by now, only one pipe
