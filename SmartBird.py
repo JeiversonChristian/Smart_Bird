@@ -118,7 +118,7 @@ class Bird:
         # calculate the displacement
         self.time += 1
         # S = S0 + v0.t + a.t²/2  ->  MUV space formula
-        displacement =  (self.velocity)*(self.time) (1.5)*(self.time**2)
+        displacement =  (self.velocity)*(self.time) + (1.5)*(self.time**2)
         
         # restrict displacement
         if displacement > 16:
@@ -176,7 +176,7 @@ class Bird:
 
     # it is going to be drawn a mask around the Bird to help the colision system
     def get_mask(self):
-        pygame.mask.from_surface(self.image)
+        return pygame.mask.from_surface(self.image)
 
     # END Bird
 
@@ -304,8 +304,8 @@ class Base:
     def draw(self, screen):
         # the blit() method will draw the contents of a pygame object
         # (image, initial position)
-        screen.blit(self.IMAGE, (self.x1, self.Y))
-        screen.blit(self.IMAGE, (self.x2, self.Y))
+        screen.blit(self.IMAGE, (self.x1, self.y))
+        screen.blit(self.IMAGE, (self.x2, self.y))
 
     # END Base
 #---------------------------------------------------------------------------------------------------------
@@ -379,10 +379,12 @@ def main():
     while running:
 
         # time is ticking
+
         # 30 FPS
         clock.tick(30)
 
         # interaction with the game
+
         # pygame.event.get() return a list of events
         # example: press the space button is an event
         for event in pygame.event.get():
@@ -403,5 +405,58 @@ def main():
                     for bird in birds:
                         bird.jump()
 
+        # start move the game objects
+
+        # bird, move!
+
+        for bird in birds:
+            bird.move()
+
+        # if the birds passes the base or the top of the screen
+        for i, bird in enumerate(birds):  # we need the address (i) and the element (bird)
+            if bird.y + bird.image.get_height() > base.y or bird.y < 0:
+                # remove that bird of list of birds
+                birds.pop(i)
+
+        # base, move!
+        base.move()
+
+        # pipe, move!
+
+        # auxiliary variable
+        # do we need to add a pipe?
+        add_pipe = False
+        # removed pipes
+        removed_pippes = []
+
+        for pipe in pipes:
+            for i, bird in enumerate(birds): # we need the address (i) and the element (bird)
+                # if bird collides with pipe
+                if pipe.collide(bird):
+                    # remove that bird of list of birds
+                    birds.pop(i)
+                # if the bird has not passed by the pipe yet, but the bird is the half way through
+                if pipe.passed == False and bird.x > pipe.x:
+                    pipe.passed = True
+                    add_pipe = True
+            pipe.move()
+            # if the pipe has passed by the screen
+            if pipe.x + pipe.TOP_PIPE_IMG.get_width() < 0:
+                # add that pipe to the list of removed pipes
+                removed_pippes.append(pipe)
+        
+        # when the verification of the entire list of pipes ends
+        # we can change the list of pipes
+        if add_pipe == True:
+            score_points += 1
+            pipes.append(Pipe(600))
+        for pipe in removed_pippes:
+            pipes.remove(pipe)
+
         # draw the screen is the last thing you do
         draw_screen(screen, birds, pipes, base, score_points)
+#---------------------------------------------------------------------------------------------------------
+
+# only run when it runs from it self
+if __name__ == '__main__':
+    main()
