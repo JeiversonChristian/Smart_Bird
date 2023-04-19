@@ -227,8 +227,10 @@ class Pipe:
         # x axis is negative to the left
         self.x -= self.VELOCITY
 
-     # draw Pipe in the screen
+    # draw Pipe in the screen
     def draw(self, screen):
+        # the blit() method will draw the contents of a pygame object
+        # (image, position)
         screen.blit(self.TOP_PIPE_IMG, (self.x, self.pos_top))
         screen.blit(self.BOT_PIPE_IMG, (self.x, self.pos_bot))
 
@@ -260,4 +262,49 @@ class Pipe:
 
 
 class Base:
-    pass
+    
+    # defining Pipe constants
+
+    # the Base are going to move in the x axis
+    VELOCITY = 5
+
+    # Base width - there are going to be needed two bases, because the screen cannot to be empty
+    # when the Base moves. The second one is going to be created with the Base width as reference
+    WIDTH = BASE_IMG.get_width()
+
+    IMAGE = BASE_IMG
+
+    # only the y is needed, because de x of the two Bases are going to be defined by this function
+    def __init__(self, y):
+        
+        # height of the base
+        self.y = y
+
+        # initial position of the two bases
+        self.x1 = 0
+        self.x2 = self.x1 + self.WIDTH
+
+    def move(self):
+
+        # they moves to the left
+        self.x1 -= self.VELOCITY
+        self.x2 -= self.VELOCITY
+
+        # if the base 1 is off the screen
+        if self.x1 + self.WIDTH < 0:
+             # put the base 1 next to the base 2
+             self.x1 = self.x2 + self.WIDTH
+
+        # if the base 2 is off the screen
+        if self.x2 + self.WIDTH < 0:
+             # put the base 2 next to the base 1
+             self.x2 = self.x1 + self.WIDTH
+
+    # draw Base in the screen
+    def draw(self, screen):
+        # the blit() method will draw the contents of a pygame object
+        # (image, position)
+        screen.blit(self.IMAGE, (self.x1, self.Y))
+        screen.blit(self.IMAGE, (self.x2, self.Y))
+
+    # END Base
