@@ -71,8 +71,8 @@ class Bird:
     IMGS = BIRDS_IMGS
 
     # rotation animations    
-    MAX_ROTATION = 25
-    ROTATION_VELOCITY = 20
+    MAX_ROTATION = 30
+    ROTATION_VELOCITY = 25
     ANIMATION_TIME = 5
 
     # defining Bird attributes
@@ -158,7 +158,7 @@ class Bird:
             self.image_counter = 0
 
         # if the Bird is falling, it's is not to slap wings
-        if self.angle <= -80:
+        if self.angle <= -100:
             self.image = self.IMGS[1]
             self.image_counter = (self.ANIMATION_TIME)*2 # the next slap wings is to down
 
