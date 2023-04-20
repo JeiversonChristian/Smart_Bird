@@ -3,6 +3,11 @@
 #---------------------------------------------------------------------------------------------------------
 # importing libraries
 
+# 1º - pip install neat-python
+# neat version used: 0.92
+# NEAT - Neural Evolution Augmenting Topology
+import neat
+
 # 1º - pip install pygame
 # pygame version used: 2.3.0 
 # one of the most used libraries for game creating in python
@@ -14,8 +19,19 @@ import os
 
 # random numbers generation library 
 import random
+
+
 #---------------------------------------------------------------------------------------------------------
 
+#---------------------------------------------------------------------------------------------------------
+# "Almost global variables"
+
+# inform if the AI is playing
+ai_playing = False
+
+# number of current generation
+generation = 0
+#---------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------
 # defining constants - game settings
@@ -337,6 +353,11 @@ def  draw_screen(screen, birds, pipes, base, score_points):
     text = SCORE_FONTE.render(f"Pontuação: {score_points}", 1, (255,255,255))
     screen.blit(text, (SCREEN_WIDTH-10-text.get_width(), 10))
 
+    # if AI is playing, show the number of current generation
+    if ai_playing == True:
+        text = SCORE_FONTE.render(f"Geração: {generation}", 1, (255,255,255))
+        screen.blit(text, (10, 10))
+
     base.draw(screen)
 
     # updating the screen
@@ -349,18 +370,33 @@ def  draw_screen(screen, birds, pipes, base, score_points):
 
 def main():
 
+    # it's to python understand that generation is a global variable, created in the beginning of the code
+    # this was needed because we are modifying its value
+    global generation
+
+    # Each time main() runs, it's because it is the next generation
+    generation += 1
+
     # defining initial parameters
 
-    # list of birds
-    # by now, only one bird
-    # (230, 350) - initial position of the bird
-    birds = [Bird(230, 350)]
+     # if the AI is playing, we are going to need 100 birds
+    if ai_playing == True:
+        # the 'i' bird matches the 'i' genome that matches the 'i' neural_networks
+        neural_networks = []
+        genomes = [] # genomes are the settings to create the neural networks
+        birds = []
+
+    else:    
+        # only one pipe
+        # (230, 350) - initial position of the bird
+        birds = [Bird(230, 350)]
+
 
     # 730 -> remember: the y axis grows to down
     base = Base(630)
 
-    # list of pipes
-    # by now, only one pipe
+    # list of pipes   
+    # only one pipe
     # 700 -> it appear behind of the screen (SCREEN_WIDTH = 500)
     pipes = [Pipe(700)]
 
