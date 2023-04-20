@@ -1,0 +1,80 @@
+
+[NEAT]                          -> Neural Evolution Augmenting Topology
+fitness_criterion     = max     -> we want to maximize the bird's score
+fitness_threshold     = 1000    -> scoore limit
+pop_size              = 100     -> population size (100 birds)
+reset_on_extinction   = False   -> if all the birds fails, aware me and don't reset them
+
+[DefaultGenome]
+# node activation options       -> node is the input / output values
+activation_default      = tanh  -> hyperbolic tangent will return number [-1,1] to the bird make a choice 
+activation_mutate_rate  = 0.0   -> there is not going to be a mutation on the node's activation function
+activation_options      = tanh  -> there is only one option to the activation function
+
+# node aggregation options      -> what is done with the values of the node (and the weights)
+aggregation_default     = sum   -> operation to sum the values that went result of the input x weights
+aggregation_mutate_rate = 0.0   -> there is not going to be a mutation on this operation
+aggregation_options     = sum   -> there is only one option to the operation
+
+# node bias options             -> bias is a value that can change the output value
+bias_init_mean          = 0.0   -> average of the bias
+bias_init_stdev         = 1.0   -> standard deviation of the bias
+bias_max_value          = 30.0  -> mas value of the bias
+bias_min_value          = -30.0 -> minimum value of the bias
+bias_mutate_power       = 0.5   -> power of the mutation 50%
+bias_mutate_rate        = 0.7   -> mutation rate 70%
+bias_replace_rate       = 0.1   -> 10% chance of create a new value to the bias instead of mutate it
+
+# genome compatibility options  -> how NEAT will distingue the bird's species
+compatibility_disjoint_coefficient = 1.0
+compatibility_weight_coefficient   = 0.5
+
+# connection add/remove rates   -> probabilities of add or delete connections (input - output)
+conn_add_prob           = 0.5   -> 50% add
+conn_delete_prob        = 0.5   -> 50% delete
+
+# connection enable options
+enabled_default         = True  -> all connections are activated
+enabled_mutate_rate     = 0.01  -> 1% chance of change this settings
+
+feed_forward            = True  -> values goes from left to right  in the network
+initial_connection      = full  -> all nodes are initial connected on the next layer (input - output)
+
+# node add/remove rates         -> probabilities of add or delete nodes (input - new - output)
+node_add_prob           = 0.2   -> 20% add
+node_delete_prob        = 0.2   -> 20% delete
+
+# network parameters            -> for each bird
+num_hidden              = 0     -> 0 intermedius nodes
+num_inputs              = 3     -> 3 inputs nodes
+num_outputs             = 1     -> 1 output node
+
+# node response options         -> X the nodes (not initials ones) value by a number before + bias
+response_init_mean      = 1.0   -> same logic of the bias
+response_init_stdev     = 0.0
+response_max_value      = 30.0
+response_min_value      = -30.0
+response_mutate_power   = 0.0
+response_mutate_rate    = 0.0
+response_replace_rate   = 0.0
+
+# connection weight options     -> same logic, but now with the weights (connections numbers)
+weight_init_mean        = 0.0
+weight_init_stdev       = 1.0
+weight_max_value        = 30
+weight_min_value        = -30
+weight_mutate_power     = 0.5
+weight_mutate_rate      = 0.8
+weight_replace_rate     = 0.1
+
+[DefaultSpeciesSet]
+compatibility_threshold = 3.0  -> limit to define a specie of bird
+
+[DefaultStagnation]
+species_fitness_func = max     ->  we want to maximize the bird's score
+max_stagnation       = 20      ->  if the specie didn't reach the last max score in 20 generations, it  has stagnated and we are going to kill it.
+species_elitism      = 2       -> remains 2 species at least
+
+[DefaultReproduction]
+elitism            = 2         -> 2 individuals will be placed in the new generation without no mutation
+survival_threshold = 0.2       -> 20% of the birds of the winners species can reproduce
