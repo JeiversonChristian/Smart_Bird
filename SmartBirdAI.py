@@ -27,7 +27,7 @@ import random
 # "Almost global variables"
 
 # inform if the AI is playing
-ai_playing = False
+ai_playing = True
 
 # number of current generation
 generation = 0
@@ -367,8 +367,11 @@ def  draw_screen(screen, birds, pipes, base, score_points):
 
 #---------------------------------------------------------------------------------------------------------
 # game's main function
-
-def main():
+# to the AI: It's the fitness function -> it says how good was the bird
+# the following parameters are required by the NEAT library
+# genomes: the neural networks settings 
+# config: all config.txt settings
+def main(genomes, config):
 
     # it's to python understand that generation is a global variable, created in the beginning of the code
     # this was needed because we are modifying its value
@@ -383,8 +386,28 @@ def main():
     if ai_playing == True:
         # the 'i' bird matches the 'i' genome that matches the 'i' neural_networks
         neural_networks = []
-        genomes = [] # genomes are the settings to create the neural networks
+        genomes_list = [] # genomes are the settings to create the neural networks
         birds = []
+
+
+        # why _ ?
+        # genomes is not a regular list
+        # genomes = [(IDGenome, Genome), (IDGenome, Genome), (IDGenome, Genome), ...]
+        # we just need the "Genome"
+        # _ will save the "IDGenome" to discard it later
+        for _, genome in genomes:
+            # nn -> neural network
+            # FeedForward -> values goes from left to right in the network 
+            neural_network = neat.nn.FeedForwardNetwork.create(genome, config)
+            neural_networks.append(neural_network)
+
+            # bird's "score" -> is the bird good or not?
+            # not the game's score, because, two birds with the same game score can be different
+            # who gets the farthest?
+            genome.fitness = 0 
+            
+            genomes_list.append(genome)
+            birds.append(Bird(230, 350))
 
     else:    
         # only one pipe
@@ -435,14 +458,15 @@ def main():
                 pygame.quit()
                 # quit game (the code)
                 quit()
-
-            # press a keyboard key    
-            if event.type == pygame.KEYDOWN:
-                # the key is the space?
-                if event.key == pygame.K_SPACE:
-                    # jump, bird, jump
-                    for bird in birds:
-                        bird.jump()
+            # the space button is only for the human
+            if ai_playing == False:
+                # press a keyboard key    
+                if event.type == pygame.KEYDOWN:
+                    # the key is the space?
+                    if event.key == pygame.K_SPACE:
+                        # jump, bird, jump
+                        for bird in birds:
+                            bird.jump()
 
         # start move the game objects
 
