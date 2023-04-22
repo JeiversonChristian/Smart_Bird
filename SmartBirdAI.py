@@ -467,13 +467,37 @@ def main(genomes, config):
                         # jump, bird, jump
                         for bird in birds:
                             bird.jump()
+        
+        # indice of the pipe that bird has to look out
+        pipe_indice = 0
+        # if there is some bird
+        if len(birds)>0:
+            # if there are 2 pipes at least
+            # and the first bird (there is always be a first) has already passed by the pipe
+            if len(pipes) > 1 and birds[0].x > (pipes[0].x + pipes[0].TOP_PIPE_IMG.get_width()):
+                pipe_indice = 1
+        else:
+            # end game
+            running = False
+            break
 
         # start move the game objects
 
         # bird, move!
 
-        for bird in birds:
+        for i, bird in enumerate(birds): # we need the address (i) and the element (bird)
             bird.move()
+            # increase the bird fitness
+            genomes_list[i].fitness += 0.1
+            # activate the neural network and it gives the output
+            # based on 3 attributes: bird y position, absolute value of distance in y from the pipes
+            # and 
+            output = neural_networks[i].activate((bird.y, 
+                                                  abs(bird.y - pipes[pipe_indice].pos_top), 
+                                                  abs(bird.y - pipes[pipe_indice].pos_bot)))
+            # [-1,+1] -> output > 0.5, so the bird jumps
+            if output[0] > 0.5:
+                bird.jump()
 
         # base, move!
         base.move()
@@ -492,6 +516,13 @@ def main(genomes, config):
                 if pipe.collide(bird) == True:
                     # remove that bird of list of birds
                     birds.pop(i)
+                    if ai_playing == True:
+                        # penalizing the bird
+                        genomes_list[i].fitness -= 1
+                        # remove that genome of list of genomes
+                        genomes_list.pop(i)
+                        # remove that neural _networks of the list
+                        neural_networks.pop(i)
                 # if the bird has not passed by the pipe yet, but the bird is the half way through
                 if not pipe.passed and bird.x > pipe.x:
                     pipe.passed = True
@@ -507,6 +538,9 @@ def main(genomes, config):
         if add_pipe == True:
             score_points += 1
             pipes.append(Pipe(600))
+            # when we need to add a pipe, it's because the bird has passed by one
+            for genome in genomes_list:
+                genome.fitness += 5
         for pipe in removed_pippes:
             pipes.remove(pipe)
 
