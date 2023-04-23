@@ -32,6 +32,7 @@ ai_playing = True
 # number of current generation
 generation = 0
 
+# this will save the max score of the current generation and the max fitness
 last_max_score = 0
 last_max_fitness = 0
 #---------------------------------------------------------------------------------------------------------
@@ -378,7 +379,7 @@ def main(genomes, config):
 
     # it's to python understand that generation is a global variable, created in the beginning of the code
     # this was needed because we are modifying its value
-    global generation, last_max_score
+    global generation, last_max_score, weights_best_bird
 
     # Each time main() runs, it's because it is the next generation
     generation += 1
