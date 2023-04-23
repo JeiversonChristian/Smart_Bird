@@ -31,6 +31,7 @@ ai_playing = True
 
 # number of current generation
 generation = 0
+last_max_score = 0
 #---------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------
@@ -375,10 +376,14 @@ def main(genomes, config):
 
     # it's to python understand that generation is a global variable, created in the beginning of the code
     # this was needed because we are modifying its value
-    global generation
+    global generation, last_max_score
 
     # Each time main() runs, it's because it is the next generation
     generation += 1
+    print("-------------------------------------------")    
+    print(f"Generation: {generation}")
+    
+    last_max_score = 0
 
     # defining initial parameters
 
@@ -456,6 +461,8 @@ def main(genomes, config):
                 running = False
                 # close screen
                 pygame.quit()
+                print(f"Max score: {last_max_score}")
+                print("-------------------------------------------")
                 # quit game (the code)
                 quit()
             # the space button is only for the human
@@ -537,6 +544,7 @@ def main(genomes, config):
         # we can change the list of pipes
         if add_pipe == True:
             score_points += 1
+            last_max_score = score_points
             pipes.append(Pipe(600))
             # when we need to add a pipe, it's because the bird has passed by one
             for genome in genomes_list:
@@ -556,6 +564,8 @@ def main(genomes, config):
 
         # draw the screen is the last thing you do
         draw_screen(screen, birds, pipes, base, score_points)
+    print(f"Max score: {last_max_score}")
+    print("-------------------------------------------")
 #---------------------------------------------------------------------------------------------------------
 
 def run_it(config_path):
@@ -570,12 +580,12 @@ def run_it(config_path):
     birds_population = neat.Population(config)
 
     # show statistics on the terminal
-    birds_population.add_reporter(neat.StdOutReporter(True))
-    birds_population.add_reporter(neat.StatisticsReporter())
+    #birds_population.add_reporter(neat.StdOutReporter(True))
+    #birds_population.add_reporter(neat.StatisticsReporter())
 
     if ai_playing == True:
         # run(fitness_function, number of generations)
-        birds_population.run(main, 50)
+        birds_population.run(main, 100)
     else:
         # if the AI is not playing, there is not a genomes and config
         main(None, None)
