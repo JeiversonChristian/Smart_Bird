@@ -1,3 +1,7 @@
+# idéias:
+# colocar uma janela grática, como a do jogo, para exibir o resultado final na tela
+# trocar a imagem do passarinho para um pássaro robô quando a IA estiver jogando
+
 # HERE THE BIRD IS TRULY SMART
 
 #---------------------------------------------------------------------------------------------------------
@@ -35,6 +39,9 @@ generation = 0
 # this will save the max score of the current generation and the max fitness
 last_max_score = 0
 last_max_fitness = 0
+
+# this will save the best generation, and the best statistics of it
+final_result = [0,0,0]
 #---------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------
@@ -468,6 +475,8 @@ def main(genomes, config):
                 print(f"Max score: {last_max_score}")
                 print(f"Max fitness: {last_max_fitness}")
                 print("-------------------------------------------")
+                print(f"Best Generation: {final_result[0]} | Best Score: {final_result[1]} | Best Fitness: {final_result[2]}")
+                print()
                 # quit game (the code)
                 quit()
             # the space button is only for the human
@@ -571,6 +580,12 @@ def main(genomes, config):
 
         # draw the screen is the last thing you do
         draw_screen(screen, birds, pipes, base, score_points)
+    
+    if last_max_fitness > final_result[2]:
+        final_result[0] = generation
+        final_result[1] = last_max_score
+        final_result[2] = last_max_fitness
+
     print(f"Max score: {last_max_score}")
     print(f"Max fitness: {last_max_fitness}")
     print("-------------------------------------------")
@@ -594,6 +609,8 @@ def run_it(config_path):
     if ai_playing == True:
         # run(fitness_function, number of generations)
         birds_population.run(main, 100)
+        print(f"Best Generation: {final_result[0]} | Best Score: {final_result[1]} | Best Fitness: {final_result[2]}")
+        print()
     else:
         # if the AI is not playing, there is not a genomes and config
         main(None, None)
