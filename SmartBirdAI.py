@@ -549,11 +549,45 @@ def main(genomes, config):
             if bird.y + bird.image.get_height() > base.y or bird.y < 0:
                 # remove that bird of list of birds
                 birds.pop(i)
+                # here we are not penalizing the AI
+                if ai_playing == True:
+                    genomes_list.pop(i)
+                    neural_networks.pop(i)
 
         # draw the screen is the last thing you do
         draw_screen(screen, birds, pipes, base, score_points)
 #---------------------------------------------------------------------------------------------------------
 
+def run_it(config_path):
+    # that variable will receive the data from the config file
+    config = neat.config.Config(neat.DefaultGenome,
+                                neat.DefaultReproduction,
+                                neat.DefaultSpeciesSet,
+                                neat.DefaultStagnation,
+                                config_path)
+    
+    # creating the birds population using the config
+    birds_population = neat.Population(config)
+
+    # show statistics on the terminal
+    birds_population.add_reporter(neat.StdOutReporter(True))
+    birds_population.add_reporter(neat.StatisticsReporter())
+
+    if ai_playing == True:
+        # run(fitness_function, number of generations)
+        birds_population.run(main, 50)
+    else:
+        # if the AI is not playing, there is not a genomes and config
+        main(None, None)
+
+
 # only run when it runs from it self
 if __name__ == '__main__':
-    main()
+
+    # this will get this file's path
+    SmartBirdAI_path = os.path.dirname(__file__)
+
+    # this will join the two paths
+    config_path = os.path.join(SmartBirdAI_path, 'config.txt')
+    # so we ensure that the run will find the path to the config file
+    run_it(config_path)
