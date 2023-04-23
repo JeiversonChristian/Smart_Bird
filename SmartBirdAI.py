@@ -31,7 +31,9 @@ ai_playing = True
 
 # number of current generation
 generation = 0
+
 last_max_score = 0
+last_max_fitness = 0
 #---------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------
@@ -384,6 +386,7 @@ def main(genomes, config):
     print(f"Generation: {generation}")
     
     last_max_score = 0
+    last_max_fitness = 0
 
     # defining initial parameters
 
@@ -462,6 +465,7 @@ def main(genomes, config):
                 # close screen
                 pygame.quit()
                 print(f"Max score: {last_max_score}")
+                print(f"Max fitness: {last_max_fitness}")
                 print("-------------------------------------------")
                 # quit game (the code)
                 quit()
@@ -559,12 +563,15 @@ def main(genomes, config):
                 birds.pop(i)
                 # here we are not penalizing the AI
                 if ai_playing == True:
+                    if genomes_list[i].fitness > last_max_fitness:
+                        last_max_fitness = genomes_list[i].fitness
                     genomes_list.pop(i)
                     neural_networks.pop(i)
 
         # draw the screen is the last thing you do
         draw_screen(screen, birds, pipes, base, score_points)
     print(f"Max score: {last_max_score}")
+    print(f"Max fitness: {last_max_fitness}")
     print("-------------------------------------------")
 #---------------------------------------------------------------------------------------------------------
 
