@@ -68,7 +68,7 @@ BIRDS_IMGS = [
 # initializing the text
 pygame.font.init() 
 # score font
-SCORE_FONTE = pygame.font.SysFont('arial', 50)
+SCORE_FONTE = pygame.font.SysFont('arial', 35)
 #---------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------
