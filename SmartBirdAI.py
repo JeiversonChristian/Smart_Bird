@@ -80,6 +80,7 @@ BIRDS_IMGS = [
 pygame.font.init() 
 # score font
 SCORE_FONTE = pygame.font.SysFont('arial', 35)
+FINAL_TEXT_FONT = pygame.font.SysFont('arial', 35)
 #---------------------------------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------------------------
@@ -375,6 +376,29 @@ def  draw_screen(screen, birds, pipes, base, score_points):
     pygame.display.update()
 #---------------------------------------------------------------------------------------------------------
 
+def print_final_result(generation, last_max_score, last_max_fitness):
+    final_result[0], final_result[1], final_result[2] = generation, last_max_score, last_max_fitness
+    clock = pygame.time.Clock()
+    running = True
+    while running:
+        clock.tick(1)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                quit()
+        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        screen.blit(BG_IMG, (0,0))
+        Best_Generation = SCORE_FONTE.render(f"Best Generation: {generation}", 1, (255,255,255))
+        Best_Score = SCORE_FONTE.render(f"Best Score: {last_max_score}", 1, (255,255,255))
+        Best_Fitness = SCORE_FONTE.render(f"Best Fitness: {last_max_fitness}", 1, (255,255,255))
+        screen.blit(Best_Generation, (5, 250))
+        screen.blit(Best_Score, (5, 300))
+        screen.blit(Best_Fitness, (5, 350))
+        base = Base(630)
+        base.draw(screen)
+        pygame.display.update()
+        
 
 #---------------------------------------------------------------------------------------------------------
 # game's main function
@@ -471,14 +495,15 @@ def main(genomes, config):
             if event.type == pygame.QUIT:
                 running = False
                 # close screen
-                pygame.quit()
                 print(f"Max score: {last_max_score}")
                 print(f"Max fitness: {last_max_fitness}")
                 print("-------------------------------------------")
                 print(f"Best Generation: {final_result[0]} | Best Score: {final_result[1]} | Best Fitness: {final_result[2]}")
+                print_final_result(final_result[0], final_result[1], final_result[2])
+                pygame.quit()
                 print()
                 # quit game (the code)
-                quit()
+                #quit()
             # the space button is only for the human
             if ai_playing == False:
                 # press a keyboard key    
@@ -611,6 +636,7 @@ def run_it(config_path):
         birds_population.run(main, 100)
         print(f"Best Generation: {final_result[0]} | Best Score: {final_result[1]} | Best Fitness: {final_result[2]}")
         print()
+        print_final_result(final_result[0], final_result[1], final_result[2])
     else:
         # if the AI is not playing, there is not a genomes and config
         main(None, None)
