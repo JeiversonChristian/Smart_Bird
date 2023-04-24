@@ -376,6 +376,11 @@ def  draw_screen(screen, birds, pipes, base, score_points):
     pygame.display.update()
 #---------------------------------------------------------------------------------------------------------
 
+
+#---------------------------------------------------------------------------------------------------------
+# This function will draw a screen with the final result
+# It has no comments, because we use the same things that we used on the rest of the code
+
 def print_final_result(generation, last_max_score, last_max_fitness):
     final_result[0], final_result[1], final_result[2] = generation, last_max_score, last_max_fitness
     clock = pygame.time.Clock()
@@ -398,6 +403,7 @@ def print_final_result(generation, last_max_score, last_max_fitness):
         base = Base(630)
         base.draw(screen)
         pygame.display.update()
+#---------------------------------------------------------------------------------------------------------
         
 
 #---------------------------------------------------------------------------------------------------------
@@ -616,6 +622,10 @@ def main(genomes, config):
     print("-------------------------------------------")
 #---------------------------------------------------------------------------------------------------------
 
+
+#---------------------------------------------------------------------------------------------------------
+# This function will run the main function
+
 def run_it(config_path):
     # that variable will receive the data from the config file
     config = neat.config.Config(neat.DefaultGenome,
@@ -640,8 +650,10 @@ def run_it(config_path):
     else:
         # if the AI is not playing, there is not a genomes and config
         main(None, None)
+#---------------------------------------------------------------------------------------------------------
 
 
+#---------------------------------------------------------------------------------------------------------
 # only run when it runs from it self
 if __name__ == '__main__':
 
@@ -652,3 +664,4 @@ if __name__ == '__main__':
     config_path = os.path.join(SmartBirdAI_path, 'config.txt')
     # so we ensure that the run will find the path to the config file
     run_it(config_path)
+#---------------------------------------------------------------------------------------------------------
