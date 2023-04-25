@@ -1,7 +1,3 @@
-# idéias:
-# colocar uma janela grática, como a do jogo, para exibir o resultado final na tela
-# trocar a imagem do passarinho para um pássaro robô quando a IA estiver jogando
-
 # HERE THE BIRD IS TRULY SMART
 
 #---------------------------------------------------------------------------------------------------------
@@ -67,10 +63,17 @@ BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'ba
 # background image
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bg.png')))
 # birds images
-BIRDS_IMGS = [
-    pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird1.png'))),
-    pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird2.png'))),
-    pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird3.png')))
+if ai_playing == True:
+    BIRDS_IMGS = [
+    (pygame.image.load(os.path.join('images', 'smartbird1.png'))),
+    (pygame.image.load(os.path.join('images', 'smartbird2.png'))),
+    (pygame.image.load(os.path.join('images', 'smartbird3.png')))
+        ]
+else:
+    BIRDS_IMGS = [
+        pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird1.png'))),
+        pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird2.png'))),
+        pygame.transform.scale2x(pygame.image.load(os.path.join('images', 'bird3.png')))
         ]
 # there are 3 position to the bird
 
@@ -216,7 +219,7 @@ class Pipe:
     # defining Pipe constants
 
     # distance between the pipes (one above, one below)
-    DISTANCE =  200
+    DISTANCE =  250
 
     # the Pipes are going to move in the x axis
     VELOCITY = 5
