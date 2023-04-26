@@ -36,7 +36,7 @@ At the end of game, it shows the best generation and its score.
 ## Presentation Video
 
 
-[![video do meu app](https://img.youtube.com/vi/cIRNzkmbXE4/0.jpg)](https://www.youtube.com/watch?v=wcIRNzkmbXE4)
+[![video do meu app](https://img.youtube.com/vi/cIRNzkmbXE4/0.jpg)](https://www.youtube.com/watch?v=cIRNzkmbXE4)
 ___
 ## Credits
 
