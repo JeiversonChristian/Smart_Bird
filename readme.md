@@ -55,7 +55,4 @@ ___
 * How to use NEAT and Pygame libraries. 
 * How to recreat the Angry Bird game.
 ___
-## Reminder
-
-do draws explaining the AI
 
