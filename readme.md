@@ -42,7 +42,7 @@ ___
 
 This project has this tutorial as base:
 
-[playlist - Inteligência Artificial no Pyhton](https://www.youtube.com/playlist?list=PLpdAy0tYrnKyVQDckS5IDB24QrSap2u8y)
+<a href="https://www.youtube.com/playlist?list=PLpdAy0tYrnKyVQDckS5IDB24QrSap2u8y" target="_blank">playlist -  Inteligência Artificial no Pyhton</a>
 ___
 ## Upgrades
 
