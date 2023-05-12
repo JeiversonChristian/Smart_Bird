@@ -2,6 +2,7 @@
 
 ## An artificial intelligence playing Flappy Bird.
 ---
+## Projeto concluído
 
 ## Description
 The Artificial Intelligence was made using NEAT - Neural Evolution Augmenting Topology (a neural network that progress each generation). For more informations, read: [NEAT-Python’s documentation](https://neat-python.readthedocs.io/en/latest/).
